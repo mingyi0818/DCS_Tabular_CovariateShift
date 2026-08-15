@@ -1,0 +1,26 @@
+# DCS Tabular CovariateShift - Dependencies
+# Python 3.13
+
+# Core
+numpy>=1.26
+pandas>=2.1
+scipy>=1.11
+scikit-learn>=1.4
+
+# TabPFN
+tabpfn==8.2.0
+tabpfn-client==0.3.3
+tabpfn-common-utils==0.2.19
+
+# Tree models
+xgboost>=2.0
+lightgbm>=4.0
+
+# Deep learning
+torch>=2.1
+
+# Visualization
+matplotlib>=3.8
+
+# Utilities
+kditransform>=0.2
