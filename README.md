@@ -96,7 +96,6 @@ python extended_5seed_local.py       # Bank, Telco (5 seeds)
 python run_tabred_experiments.py             # all 8 datasets
 python run_tabred_experiments.py weather     # single dataset
 python tabred_paired_tests.py                # paired t-tests + Wilcoxon per dataset
-python revision_stats.py                     # Holm correction across the 8 tests
 ```
 
 ### Tables 12–13 — Context-budget comparison (matched protocol)
@@ -124,11 +123,11 @@ python m7_multi_fraction.py
 ### Table 16 — TTA baselines (Tent, AdapTable, Self-Training)
 
 ```bash
-python run_tta_comparison.py         # seeds 42, 123
-python tta_5seed_local.py            # seeds 456, 789, 2024 (local GPU)
-python combine_tta_5seed.py          # merges into 5-seed summary
-python revision_stats.py             # 5-seed adaptation-overhead means (m6_tta_timing_5seed)
+python tta_unified_fulltest.py       # all 5 seeds, full test set (n_test=7,327), local GPU
+python tta_unified_stats.py          # paired t-tests of DCS vs each baseline (appends to revision_stats.json)
 ```
+
+Note: earlier versions of this comparison merged two runs with different test-set sizes; the table in the paper uses the unified full-test protocol produced by `tta_unified_fulltest.py`.
 
 ### Tables 17–19 — Marginal-KL/MMD context quality + calibration
 
@@ -170,7 +169,7 @@ Figures are generated from the result JSON files by standard plotting code; each
 - **Runtime**: the full suite takes roughly 2–3 days on a single RTX Pro 2000 (16 GB). The TabReD benchmark (Table 11) and the TTA comparison (Table 16) dominate the cost; individual datasets can be run selectively as shown above.
 - **Cloud vs local**: only Table 3 requires the TabPFN cloud client. An equivalence check on the Adult configuration showed differences ≤ 0.01 pp between the two backends.
 - **Reproducibility**: every script seeds all random operations (`numpy`, `sklearn`, `torch`); rerunning with the same seeds reproduces the reported mean ± std within float32 precision.
-- **JSON output**: each script writes its own result file to `../results/`; the file names match the table numbers (e.g., `tabred_benchmark_results.json` → Table 11, `global_is_dcs_results.json` → Table 20, `mushroom_encoding_ablation.json` → Section 3.6 ablation).
+- **JSON output**: each script writes its own result file to `../results/`; the file names match the table numbers (e.g., `tabred_benchmark_results.json` → Table 11).
 
 ## Citation
 
