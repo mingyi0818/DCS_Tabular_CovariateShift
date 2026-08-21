@@ -1,15 +1,19 @@
 """Download TabReD datasets from Kaggle."""
 import os, sys, json
 
-# Ensure kaggle credentials are set
+# Kaggle credentials are read from the standard location or environment
+# variables (see https://github.com/Kaggle/kaggle-api#api-credentials).
+# Either place kaggle.json in ~/.kaggle/ or set KAGGLE_USERNAME/KAGGLE_KEY.
 kaggle_dir = os.path.expanduser("~/.kaggle")
 os.makedirs(kaggle_dir, exist_ok=True)
 kaggle_json = os.path.join(kaggle_dir, "kaggle.json")
-creds = {"username": "zengjy08", "key": "KGAT_9baa88bab0148843c89d4e936b33af85"}
-with open(kaggle_json, "w") as f:
-    json.dump(creds, f)
-os.environ["KAGGLE_USERNAME"] = "zengjy08"
-os.environ["KAGGLE_KEY"] = "KGAT_9baa88bab0148843c89d4e936b33af85"
+if os.environ.get("KAGGLE_USERNAME") and os.environ.get("KAGGLE_KEY"):
+    print("Using Kaggle credentials from environment variables.")
+elif os.path.exists(kaggle_json):
+    print("Using Kaggle credentials from ~/.kaggle/kaggle.json.")
+else:
+    sys.exit("No Kaggle credentials found. Place kaggle.json in ~/.kaggle/ "
+             "or set KAGGLE_USERNAME and KAGGLE_KEY environment variables.")
 
 # Try to authenticate and download
 try:
